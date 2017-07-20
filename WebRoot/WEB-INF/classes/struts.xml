@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+  
+    <!-- 开发模式下使用,这样可以打印出更详细的错误信息  -->
+     <!-- struts.devMode包括了struts.configuration.xml.reload，前者设置为true则后者也就自动设置为true-->
+     <constant name="struts.devMode" value="true" />
+     <constant name="struts.action.extension" value="action,do,ttt"/>
+     
+     <package name="Hello" extends="struts-default">
+        <!--  不继承actionSupport 使用方法来定义 -->
+         <!-- 配置动作 -->
+          <action name="hello01" class="com.cblue.action.Hello01Action" method="hello">
+                 <!-- 配置结果视图 -->
+                 <result name="success">/success.jsp</result>
+          </action> 
+     </package>
+     
+     <!--  常见标签介绍 -->
+     <!-- 不同的包名代表不同的业务 -->
+     <package name="user"></package>
+     <package name="order"></package>
+      <!-- 继承struts-default，查看core.jar下的struts-default.xml -->
+      <!-- abstract定义抽象包，没有任何action子元素的包就可以定义为抽象包,查看core.jar下的struts-default.xml的struts-default就是抽象包 -->
+      <!-- <package name="product" extends="struts-default" abstract="true"></package>-->
+    
+     <!-- namespace是命名空间，一般以"/"开头，和动作名称一起，构成了用户的访问路径。 -->
+     
+     <package name="shop1" extends="struts-default" namespace="/path1/path2/path3">
+         <action name="myShop" class="com.cblue.namespace.MyShop1Action" method="doShop">
+              <result name="success">/success.jsp</result>
+         </action>
+     </package>
+     
+      <!-- 
+      <package name="shop2" extends="struts-default" namespace="/path1/path2">
+         <action name="myShop" class="com.cblue.namespace.MyShop2Action" method="doShop">
+              <result name="success">/success.jsp</result>
+         </action>
+     </package>
+     -->
+      <package name="shop3" extends="struts-default" namespace="/path1">
+         <action name="myShop" class="com.cblue.namespace.MyShop3Action" method="doShop">
+              <result name="success">/success.jsp</result>
+         </action>
+     </package>
+     
+     <!-- 默认的namespace --> 
+     <package name="shop4" extends="struts-default">
+         <action name="myShop" class="com.cblue.namespace.MyShop4Action" method="doShop">
+              <result name="success">/success.jsp</result>
+         </action>
+         <!-- 访问 path1/path2/path3/testShop.action -->
+          <action name="testShop" class="com.cblue.namespace.MyShop4Action" method="doShop">
+              <result name="success">/success.jsp</result>
+         </action>
+     </package>
+     
+       
+       <!-- 第二天 -->
+      <package name="p2" extends="struts-default">
+         <action name="hello02" class="com.cblue.action.Hello02Action">
+               <result name="success">/success.jsp</result>
+         </action>
+          <action name="hello03" class="com.cblue.action.Hello03Action">
+               <result name="success">/success.jsp</result>
+         </action>
+     </package>
+     
+     
+     <!-- 使用动作方法配置的 -->
+      <package name="customer" extends="struts-default">
+        <!-- 
+          <action name="addCustomer" class="com.cblue.actionmethod.CustomerAction" method="addCustomer">
+               <result name="success">/addCustomer.jsp</result>
+          </action>
+           <action name="updateCustomer" class="com.cblue.actionmethod.CustomerAction" method="updateCustomer">
+               <result name="success">/updateCustomer.jsp</result>
+          </action>
+           -->
+             <!-- 使用通配符 -->
+          <!-- 
+          <action name="*" class="com.cblue.actionmethod.CustomerAction" method="{1}">
+               <result name="success">/{1}.jsp</result>
+          </action> 
+           -->
+           <!-- 
+           <action name="*_*" class="com.cblue.actionmethod.CustomerAction" method="{1}{2}">
+               <result name="success">/{1}{2}.jsp</result>
+           </action>
+            -->
+      </package>
+      
+       
+    <!--  如果不设置class，就会自动调用ActionSupport类的execute方法，并返回到success页面，这个功能可以实现简单的跳转  -->
+     <package name="goto" extends="struts-default">
+           <action name="goAction">
+              <result>/success.jsp</result>
+           </action>
+     </package>
+     
+      <!-- 找不到action的时候，跳转到默认页面，不能和通配符一起使用-->
+       <package name="default" extends="struts-default">
+            <!-- 必须放在action前面 -->
+           <default-action-ref name="defaultAction"></default-action-ref>
+           
+            <action name="defaultAction">
+                <result type="redirect">/default.jsp</result>
+            </action>
+           
+       </package>
+       
+      <!-- 获得Servlet对象 -->
+      <package name="servlet" extends="struts-default">
+          <action name="servletAction" class="com.cblue.servlet.ServletAction">
+                <result name="success">/success.jsp</result>
+          </action>
+      </package>
+       
+       
+        <!-- result类型 -->
+       <package name="result1" extends="struts-default">
+           <action name="result1Action" class="com.cblue.result.ResultAction">
+             <result name="success">/success.jsp</result>
+             <result name="error" type="redirect">/error.jsp</result>
+             <result name="chain" type="chain">chainAction</result>
+             <result name="redirectAction" type="redirectAction">chainAction</result>
+             <result name="txt" type="plainText">/success.jsp</result>
+           </action>
+           <action name="chainAction" class="com.cblue.result.ChainAction"> 
+           </action>
+       </package>
+       
+        <!-- 访问不同包下 包含namespace的结果类型 -->
+      <package name="result2" extends="struts-default">
+           <action name="result2Action" class="com.cblue.result.ResultAction">
+                <result type="chain" name="chain">
+                <param name="actionName">chain2Action</param>
+                <param name="namespace">/java</param>
+                </result>
+           </action> 
+      </package>
+      
+        <package name="result3" namespace="/java" extends="struts-default">
+           <action name="chain2Action" class="com.cblue.result.ChainAction">
+           </action>
+      </package>
+       
+       
+      <!-- 自定义结果类型 -->
+      <!--  <package name="imageResult" extends="struts-default">
+          
+          <result-types>
+             <result-type name="image" class="com.cblue.result.ImageResult"></result-type>
+          </result-types>
+          
+          <action name="imageAction" class="com.cblue.result.ImageAction">
+              <result type="image"></result>
+          </action>
+           
+       </package> -->
+       
+        <!-- 所有的包共享自定义结果类型 -->
+       <package name="imageResultType" extends="struts-default">
+            <result-types>
+             <result-type name="image" class="com.cblue.result.ImageResult"></result-type>
+            </result-types>
+       </package>
+       
+       <package name="imageResult" extends="imageResultType">
+            <action name="imageAction" class="com.cblue.result.ImageAction">
+              <result type="image">
+                <param name="height">200</param>
+	    	    <param name="width">200</param>
+              </result>
+          </action>
+       </package>
+       
+     <!-- 第三天 -->
+      <!-- 封装请求参数 -->
+      <package name="param" extends="struts-default">
+         <!-- action类作为模型对象，直接封装请求参数 -->
+           <action name="userAction" class="com.cblue.param.UserAction">
+                <!-- 配置文件静态注入 -->
+                  <param name="type">类型</param>
+           </action>
+           
+           <action name="studentAction" class="com.cblue.param.StudentAction">
+           </action>
+           
+           <action name="teacherAction" class="com.cblue.param.TeacherAction" method="save">
+           </action>
+         
+           <action name="listStudentAction" class="com.cblue.param.ListStudentAction"></action>
+           
+           <action name="mapStudentAction" class="com.cblue.param.MapStudentAction"></action>
+         
+      </package>
+     
+     
+     
+      <!-- 数据类型转换 -->
+        <package name="convert" extends="struts-default">
+           <!-- 自动类型转换 -->
+           <action name="dateConvert" class="com.cblue.convert.DateConvertAction">
+                <result name="input">/dateconvert.jsp</result>
+           </action>
+        </package>
+        
+        <!-- 第四天 -->
+        <!-- 数据校验 -->
+         <package name="validate" extends="struts-default">
+            <!-- 编程式校验 -->
+            <action name="proValidate1Action" class="com.cblue.validate.ProValidateAction"  method="save">
+               <result name="input">/provalidate01.jsp</result>
+            </action>
+            <action name="proValidate2Action" class="com.cblue.validate.ProValidateAction"  method="update">
+               <result name="input">/provalidate02.jsp</result>
+            </action>
+            <!-- 声明式校验 -->
+              <action name="decValidate1Action" class="com.cblue.validate.DecValidateAction" method="save">
+                 <result name="input">/decvalidate01.jsp</result>
+              </action>  
+              
+               <action name="decValidate2Action" class="com.cblue.validate.DecValidateAction" method="update">
+                 <result name="input">/decvalidate02.jsp</result>
+              </action>      
+           <!-- 内置校验器案例 -->  
+               <action name="customerAction" class="com.cblue.validate.CustomerAction">
+                    <result name="input">/customer.jsp</result>
+               </action> 
+           <!-- 自定义校验器 -->    
+               <action name="ageValidateAction" class="com.cblue.validate.AgeValidateAction">
+                  <result name="input">/agevalidate.jsp</result>
+               </action>
+               <action name="idCardValidateAction" class="com.cblue.validate.IDCardValidateAction">
+                    <result name="input">/idcard.jsp</result>
+               </action>
+               
+         </package>
+         
+         <!-- 国际化 -->
+         <!-- <constant name="struts.custom.i18n.resources" value="msg" />-->
+         <!-- 通过设置，显示不同的文件 -->
+         <!--  <constant name="struts.locale" value="zh_CN"></constant> -->
+         
+         <!-- 拦截器  没有jsp-->
+         <!-- 单个拦截器 -->
+         <package name="interceptor" extends="struts-default">
+             <!-- 声明拦截器 -->
+             <interceptors>
+                   <interceptor name="myInterceptor" class="com.cblue.interceptor.MyInterceptor"></interceptor>     
+             </interceptors>
+             <action name="myInterceptorAction" class="com.cblue.interceptor.MyInterceptorAction">
+                    <!-- 使用拦截器，但是默认的拦截器会不起作用 -->
+                    <interceptor-ref name="myInterceptor"></interceptor-ref> 
+             </action>
+         </package>
+         
+          <!-- 实际使用，使用到默认拦截器 把所有的拦截器放到拦截器栈中
+            注意：是一个抽象的，让下面package继承
+          -->
+          <package name="interceptorstack" extends="struts-default" abstract="true">
+           <!-- 声明拦截器 -->
+             <interceptors>
+	             <interceptor name="myInterceptor" class="com.cblue.interceptor.MyInterceptor"></interceptor>     
+	             <interceptor name="loginMethodFilterInterceptor" class="com.cblue.interceptor.LoginMethodFilterInterceptor">
+	               <param name="excludeMethods">login</param> <!-- 排除的方法 --> 
+	             </interceptor>
+	             <interceptor name="loginInterceptor" class="com.cblue.interceptor.LoginInterceptor"></interceptor>
+	             
+	              <!--拦截器栈 -->  
+			          <interceptor-stack name="mydefaultStack">  
+			                <interceptor-ref name="defaultStack" />  
+			                <interceptor-ref name="myInterceptor" /> 
+			                <interceptor-ref name="loginMethodFilterInterceptor"></interceptor-ref> 
+			                <interceptor-ref name="loginInterceptor"/>
+			          </interceptor-stack>
+             </interceptors>
+          </package>
+          <!-- 使用所有的拦截器 -->
+          <package name="allinterceptor" extends="interceptorstack">
+             <action name="allInterceptorAction" class="com.cblue.interceptor.MyInterceptorAction">
+                    <!-- 使用拦截器，但是默认的拦截器会不起作用 -->
+                    <interceptor-ref name="mydefaultStack"></interceptor-ref> 
+             </action>
+          </package>
+          
+          
+          <!--  拦截器案例（实现添加操作，在执行添加操作之前，使用拦截器判断用户是否登录） -->
+          <package name="isLogin" extends="interceptorstack">
+            
+              <action name="dbAction" class="com.cblue.interceptor.DBAction" method="save">
+                  <result name="success">/success.jsp</result>
+                  <result name="input">/db.jsp</result>
+                  <interceptor-ref name="mydefaultStack"></interceptor-ref>
+              </action>
+               <action name="loginAction" class="com.cblue.interceptor.DBAction" method="login">
+                  <result name="success">/db.jsp</result>
+               </action>
+          </package>
+          
+          <!-- 第五天 -->
+          <!-- 文件上传 -->
+           <!-- 上传文件提示信息的资源名 -->
+           <constant name="struts.custom.i18n.resources" value="upload"></constant>
+           <constant name="struts.multipart.maxSize" value="2014"></constant>
+           <package name="upload" extends="struts-default">
+              <!-- 单文件上传 -->
+              <action name="upload1Action" class="com.cblue.upload.Upload1Action">
+                 <interceptor-ref name="defaultStack">
+                    <param name="fileUpload.allowedTypes">.jpg,.bmp,.png</param>
+              
+                    <!-- 这个未测试 -->
+                    <param name="fileUpload.maximumSize">2048576</param>
+                    <param name="fileUpload.allowedExtension">111</param>
+                    
+                 </interceptor-ref>
+                 <result name="success">/success.jsp</result>
+                 <result name="input">/upload01.jsp</result>
+              </action>
+              <!-- 多文件上传 -->
+              <action name="upload2Action" class="com.cblue.upload.Upload2Action">
+                  <result name="success">/success.jsp</result>
+                 <result name="input">/upload02.jsp</result>
+              </action>
+              
+              <!-- 文件下载 -->
+                <action name="downloadAction" class="com.cblue.download.DownloadAction">
+                    <result name="success" type="stream">  
+                   <!--  "contentType"参数不同，将contentType参数设置为"image/jpeg"，则动作将文件发送给浏览器，并让浏览器显示其内容。
+                                                  将contentType参数设置为"application/octet-stream"，则动作将以文件下载的方式发送给浏览器。
+                                                 换一种说法就是，若为"image/jpeg"，就是告诉浏览器这是一个jpg文件，
+                                                 请显示它的内容；若为"application/octet-stream"，就是告诉浏览器，问用户想不想保存这个文件。 -->
+		               <param name="contentType">image/png</param>
+		              <!--  下载的文件方式：如果下載的事是文本类型的，就直接在网页上打开，不能直接打开的才会打开下载框自己选择 -->
+		              <!-- attachment ：下载时会打开下载框 -->
+		              <!--  fileName="${fileName}" ：action中有对应的属性，该名字是显示在下载框上的文件名字 -->
+		               <param name="contentDisposition">attachment;fileName="${fileName}"</param>  
+		               <!-- action中輸入流的屬性名字，该属性返回的InputStream对象将被发送到浏览器 -->
+		               <param name="inputName">downloadFile</param> 
+		              <!--   通过InputStream对象读取数据，通过OutputStream对象向浏览器发送数据时使用的缓冲区的长度。  -->
+		               <param name="bufferSize">1024</param>  
+                     </result>  
+                </action>
+           </package>
+           
+              <!-- ognl表达式 -->
+              <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+               
+              <!-- 值栈 -->
+              <package name="valuestack" extends="struts-default">
+                   <!-- 显示值栈  获得值栈对象的三种方式 -->
+                    <!-- 值栈的操作方式 -->
+                   <action name="valueStack" class="com.cblue.ognl.ValueStackAction">
+                      <result>/valuestack.jsp</result>
+                   </action> 
+              </package>
+         
+         
+          <!-- 第六天 -->
+            <!-- 常用标签 --> 
+              <package name="tag" extends="struts-default">      
+                   <!--iterator-->
+                   <action name="iterator" class="com.cblue.ognl.IteratorAction">
+                      <result>/iterator.jsp</result>
+                   </action>
+                    <!-- 其他标签 -->
+                    <action name="othertag">
+                      <result>/othertag.jsp</result>
+                    </action>
+               </package>     
+               
+               <!-- 重复提交 --> 
+               <package name="resubmit" extends="struts-default">
+                   <action name="submit" class="com.cblue.resubmit.ResubmitAction">
+                      <interceptor-ref name="defaultStack"></interceptor-ref>
+                      <interceptor-ref name="token"></interceptor-ref>
+                       <result>/success.jsp</result>
+                   </action>
+               </package>
+
+</struts>
