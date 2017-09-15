@@ -8,6 +8,7 @@ public class AgeValidator extends FieldValidatorSupport {
 	@Override
 	public void validate(Object obj) throws ValidationException {
 		// TODO Auto-generated method stub
+		//obj指的是当前执行的action对象
 		System.out.println("AgeValidate --obj="+obj);
 		//获取字段名称
 		String filedName = this.getFieldName();

@@ -12,22 +12,13 @@ public class ValueStackAction extends ActionSupport {
 	
 	private String BBB;
 	
-	
-	
-	
 	public String getBBB() {
 		return BBB;
 	}
 
-
-
-
 	public void setBBB(String bBB) {
 		BBB = bBB;
 	}
-
-
-
 
 	@Override
 	public String execute() throws Exception {
@@ -45,11 +36,12 @@ public class ValueStackAction extends ActionSupport {
 		//set()与setValue()的区别
 		//使用set（）设置值
 		//vs1.set("aaa","AAA");
+		
 		//使用setValue设置值，
 		//vs1.setValue("bbb","BBB");//错误,必须有key属性的setter和getter方法
 		
 		//操作Action属性与ActionContext的属性区别
-		//如果在Action中设置属性，属性前不需要加任何。如果在前面加上#，在ActionContext中设置属性
+		//如果给Action中设置属性，属性前不需要加任何。如果在前面加上#，在ActionContext中设置属性
 		vs1.setValue("#ccc", "CCC");
 		
 		//使用push在栈中添加对象

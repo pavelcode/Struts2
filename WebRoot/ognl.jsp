@@ -24,10 +24,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-     <!-- 对于一个字符串来说，放在property标签中，使用引号包含，就把字符串转化成了ognl表达式，否则失败 -->
-     <s:property value="abc"/>
-     <!-- 这个标签的作用是把内容输出，value里面对应的就是ognl表达式 -->
+     <!-- 这个标签的作用是把内容输出，类似于c:out，value里面对应的就是ognl表达式 -->
      <s:property value="'abc'"/> 
+     <!-- 对于一个字符串来说，放在property标签中，使用【单引号】包含，就把字符串转化成了ognl表达式，否则失败 -->
+     <s:property value="abc"/>  <!-- 不输出任何内容 -->
      <!-- 调用String的toUpperCase() -->
      <s:property value="'abc'.toUpperCase()"/>
      <!-- 调用类静态的属性 -->

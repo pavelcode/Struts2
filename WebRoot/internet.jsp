@@ -26,7 +26,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <!--  使用Struts2标签 -->
     <s:text name="hello"></s:text>
-    <s:textfield name="name" key="username"></s:textfield>
+    <!-- 注意：这里是key -->
+    <s:textfield name="name" key="username"></s:textfield> 
     <hr/>
     <!-- 使用国际化标签 -->
     <s:i18n name="msg">

@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  
      <s:form action="proValidate1Action.action">
       <s:textfield name="name" label="用户名"></s:textfield>
      <s:textfield name="pass" label="密码"></s:textfield>

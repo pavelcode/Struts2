@@ -6,13 +6,13 @@
        <!--   形式1
          <field name="name">
              <field-validator type="requiredstring">
-                <message>姓名不能为空[dec]</message>
+                <message><![CDATA[姓名不能为空[dec]]]</message>
              </field-validator>
          </field>
           形式2
           <validator type="requiredstring">
               <param name="fieldName">pass</param>
-              <message>密码不能为空[dec]</message>
+              <message><![CDATA[密码不能为空[dec]]]</message>
           </validator>-->
           
           <field name="username">
@@ -28,9 +28,17 @@
 	              <message><![CDATA[密码不能为空[dec]]]></message>
 	          </field-validator>
 	          <field-validator type="regex">
-	              <param name="expression"><![CDATA[^[a-zA-Z0-9]{6,12}]]></param>
+	              <param name="regexExpression"><![CDATA[^[a-zA-Z0-9]{6,12}]]></param>
 	              <message><![CDATA[密码长度是6-12位之间]]></message>
 	          </field-validator>
+	          
+	          <field-validator type="stringlength">
+	             <param name="trim">true</param>
+	              <param name="minLength">6</param>
+	              <param name="maxLength">12</param>
+	              <message><![CDATA[密码长度是6-12位之间]]></message>
+	          </field-validator>
+	          
           </field>
           
           

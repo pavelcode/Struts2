@@ -80,12 +80,13 @@
                <result name="success">/updateCustomer.jsp</result>
           </action>
            -->
-             <!-- 使用通配符 -->
+             <!-- 使用单通配符 -->
           <!-- 
           <action name="*" class="com.cblue.actionmethod.CustomerAction" method="{1}">
                <result name="success">/{1}.jsp</result>
           </action> 
            -->
+            <!-- 使用双通配符 -->
            <!-- 
            <action name="*_*" class="com.cblue.actionmethod.CustomerAction" method="{1}{2}">
                <result name="success">/{1}{2}.jsp</result>
@@ -101,7 +102,7 @@
            </action>
      </package>
      
-      <!-- 找不到action的时候，跳转到默认页面，不能和通配符一起使用-->
+      <!-- 找不到action的时候，跳转到默认action，不能和单通配符一起使用-->
        <package name="default" extends="struts-default">
             <!-- 必须放在action前面 -->
            <default-action-ref name="defaultAction"></default-action-ref>
@@ -125,6 +126,10 @@
            <action name="result1Action" class="com.cblue.result.ResultAction">
              <result name="success">/success.jsp</result>
              <result name="error" type="redirect">/error.jsp</result>
+             <!-- <result name="chain" type="chain">
+                <param name="actionName">chainAction</param>
+                <param name="nameSpace">/</param>
+             </result> -->
              <result name="chain" type="chain">chainAction</result>
              <result name="redirectAction" type="redirectAction">chainAction</result>
              <result name="txt" type="plainText">/success.jsp</result>
@@ -310,13 +315,14 @@
            <package name="upload" extends="struts-default">
               <!-- 单文件上传 -->
               <action name="upload1Action" class="com.cblue.upload.Upload1Action">
-                 <interceptor-ref name="defaultStack">
+                   <!-- 给拦截器配置参数，可以不写 -->
+                 <interceptor-ref name="defaultStack">  
+                    <!-- 拦截器的名字.属性 -->
                     <param name="fileUpload.allowedTypes">.jpg,.bmp,.png</param>
-              
+           
                     <!-- 这个未测试 -->
                     <param name="fileUpload.maximumSize">2048576</param>
                     <param name="fileUpload.allowedExtension">111</param>
-                    
                  </interceptor-ref>
                  <result name="success">/success.jsp</result>
                  <result name="input">/upload01.jsp</result>
@@ -331,7 +337,7 @@
                 <action name="downloadAction" class="com.cblue.download.DownloadAction">
                     <result name="success" type="stream">  
                    <!--  "contentType"参数不同，将contentType参数设置为"image/jpeg"，则动作将文件发送给浏览器，并让浏览器显示其内容。
-                                                  将contentType参数设置为"application/octet-stream"，则动作将以文件下载的方式发送给浏览器。
+                                                 将contentType参数设置为"application/octet-stream"，则动作将以文件下载的方式发送给浏览器。
                                                  换一种说法就是，若为"image/jpeg"，就是告诉浏览器这是一个jpg文件，
                                                  请显示它的内容；若为"application/octet-stream"，就是告诉浏览器，问用户想不想保存这个文件。 -->
 		               <param name="contentType">image/png</param>
@@ -379,6 +385,7 @@
                       <interceptor-ref name="defaultStack"></interceptor-ref>
                       <interceptor-ref name="token"></interceptor-ref>
                        <result>/success.jsp</result>
+                       <result name="invalid.token">/error.jsp</result>
                    </action>
                </package>
 

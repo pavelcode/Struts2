@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          或<s:property value="%{#application.appl}"/>
      <br/>
    <!--#加attr前缀能按request > session > application顺序获取attribute，
-            这样当在request中取不到时，会自动向session里取，如果session里也取不到，
+           这样当在request中取不到时，会自动向session里取，如果session里也取不到，
            会再向application里取。如果取到则返回，不再向上游历 -->
     <s:property value="#attr.sess"/>或<s:property value="#attr['sess']"/>
     或<s:property value="%{#attr.sess}"/><br/>

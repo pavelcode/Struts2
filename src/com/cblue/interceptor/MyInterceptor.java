@@ -12,6 +12,9 @@ public class MyInterceptor extends AbstractInterceptor {
 		super.init();
 		System.out.println("MyInterceptor--init");
 	}
+	/**
+	 * invocation 调用
+	 */
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
 		// TODO Auto-generated method stub

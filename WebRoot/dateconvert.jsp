@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <%--  <form action="${pageContext.request.contextPath}/dateConvert.action" method="post">
           用户名<input type="text" name="name"/><br/>
          年龄<input type="text" name="age"/><br/>
-        出生日期<input type="text" name="birthday"/><br/>
+        出生日期<input type="text" name="birthday"/>(yyyy-MM-dd)<br/>
           <input type="submit" value="登录"/>
           
     </form> --%>

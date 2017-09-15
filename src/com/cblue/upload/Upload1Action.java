@@ -51,7 +51,7 @@ public class Upload1Action extends ActionSupport {
 		try {
 			if (saveDic != null) {
 				   File filetemp = new File(saveDic);
-				   if (filetemp.exists()) {
+				   if (!filetemp.exists()) {
 				    //建立文件夹
 				         filetemp.mkdirs();
 				   }

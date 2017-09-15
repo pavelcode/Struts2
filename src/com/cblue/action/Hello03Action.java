@@ -2,7 +2,7 @@ package com.cblue.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class Hello03Action extends ActionSupport {
+public class Hello03Action extends ActionSupport{
 	
 	@Override
 	public String execute() throws Exception {
